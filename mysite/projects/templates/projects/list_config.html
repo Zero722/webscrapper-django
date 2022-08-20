@@ -1,0 +1,16 @@
+{% extends 'projects/header.html' %}
+{% block content %}
+    {% if scheme_list %}
+    <h3>List of Schemes: </h3>
+    <br>
+
+        <ol>
+        {% for scheme in scheme_list %}
+            <li><a href="{% url 'view_config' scheme %}">{{scheme}}</a></li>
+        {% endfor %}
+        </ol>
+    {% else %}
+        <h3>No Scheme Found</h3>
+    {% endif %}
+{% endblock content %}
+

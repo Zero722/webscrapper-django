@@ -1,0 +1,32 @@
+[{
+    "name": "amazon",
+    "content": [   
+        {
+            "field": "organic",
+            "xPath": "//div[contains(@cel_widget_id,'MAIN-SEARCH_RESULTS')]",
+            "is_parent": "True"
+        }, 
+        {
+            "field": "title",
+            "xPath": "//h2",
+            "parent_field": "organic"
+        },
+        {
+            "field": "rating",
+            "xPath": "//i/span",
+            "parent_field": "organic"
+
+        },
+        {
+            "field": "rating_count",
+            "xPath": "//span[@aria-label]/a/span",
+            "parent_field": "organic"
+
+        },
+        {
+            "field": "price",
+            "xPath": "//span[contains(@class,'a-price')][not(contains(@data-a-strike,'true'))]/span[contains(@class,'a-offscreen')]",
+            "parent_field": "organic"
+        }
+    ]    
+}]

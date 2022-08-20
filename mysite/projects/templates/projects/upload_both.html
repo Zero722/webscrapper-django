@@ -1,0 +1,37 @@
+{% extends 'projects/header.html' %}
+{% include 'projects/cookie_helper.html' %}
+{% load static %}
+{% block content %}
+
+<div class="latest_download">
+    <a id="latest_file" href="{% get_media_prefix %}path_to_upload/{{ latest_url }}.csv " download> 
+        <button id="download_latest"> Download Latest Scraped Data</button>
+    </a>
+</div>
+<br><br><br>
+
+
+<form method="post" enctype="multipart/form-data" id="both_upload">
+    {% csrf_token %}
+    <h4>UPLOAD CONFIG JSON</h4>
+    <input type="file" name="jsonfile" id="jsonfile">
+    <br><br><br>
+    <h4>UPLOAD URL CSV</h4>
+    <input type="file" name="csvfile" id="csvfile">
+    <button type="submit" class="both_upload">Upload</button>
+</form>
+
+<p id="both_upload_msg"></p>
+
+
+<br>
+<div class="download_btn">
+    <a id="download_scraped_data" href="{% get_media_prefix %}path_to_upload/4a19ea6a51df4cd384dc32d843f08507.csv "
+        download> <button> Download </button> </a>
+</div>
+{% block scripts %}
+    <!-- block.super will get the content of the block from the parent template -->
+    {{ block.super }}
+    <script src="{% static 'projects/js/cookie_helper.js' %}"></script>
+{% endblock %}
+{% endblock content %}

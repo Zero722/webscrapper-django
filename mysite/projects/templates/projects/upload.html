@@ -1,0 +1,62 @@
+{% extends 'projects/header.html' %}
+{% include 'projects/cookie_helper.html' %}
+{% load static %}
+{% block content %}
+
+<div class="latest_download">
+    <a id="latest_file" href="{% get_media_prefix %}path_to_upload/{{ latest_url }}.csv " download> 
+        <button id="download_latest"> Download Latest Scraped Data</button>
+    </a>
+</div>
+
+<br><br><br>
+<button id='toggle_btn' onclick='toggle()'>View CSV Upload</button>
+<br><br>
+<div id="json_div">
+    <h3>UPLOAD CONFIGURATION (JSON FILE) TO DATABASE </h3>
+    <br>
+    <h4>Upload JSON</h4>
+    <form method="post" enctype="multipart/form-data" id="jsonupload">
+        {% csrf_token %}
+        <input type="file" name="jsonfile" id="jsonfile">
+        <button type="submit" class="json_upload">Upload</button>
+    </form>
+
+    <p id="config_upload_msg"></p>
+</div>
+
+<div id="url_div">
+    <h3>UPLOAD URLS (CSV FILE) AND DOWNLOAD SCRAPED DATA </h3>
+    <br>
+    <form method="post" enctype="multipart/form-data" id="csvupload">
+        {% csrf_token %}
+        <label>Choose Scheme:</label>
+        <select name="scheme_name" id="scheme_name">
+            <option disabled selected value> -- select an option -- </option>
+            {% for scheme in scheme_list %}
+            <option value="{{scheme}}">{{scheme|title}}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <br>
+        <h4>Upload CSV</h4>
+        <input type="file" name="csvfile" id="csvfile">
+        <button type="submit" class="csv_upload">Upload</button>
+    </form>
+    <p id="url_upload_msg"></p>
+    <br>
+    <div class="download_btn">
+        <a id="download_scraped_data" href="{% get_media_prefix %}path_to_upload/4a19ea6a51df4cd384dc32d843f08507.csv "
+            download> <button> Download </button> </a>
+    </div>
+</div>
+
+
+
+{% block scripts %}
+    <!-- block.super will get the content of the block from the parent template -->
+    {{ block.super }}
+    <script src="{% static 'projects/js/cookie_helper.js' %}"></script>
+{% endblock %}
+
+{% endblock content %}

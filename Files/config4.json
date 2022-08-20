@@ -1,0 +1,29 @@
+[
+    {
+      "name": "google",
+      "content": [
+        {
+          "field": "sponsored",
+          "xPath": "//div[contains(@class,'top')]/div[contains(@class,'unit') and not(contains(@class,'view-all'))] | //span[contains(text(),'Sponsored')]/following-sibling::div[not(@*)]//g-inner-card | //span[contains(text(),'Sponsored')]/following-sibling::div[not(@*)]//div[contains(@class,'qvfQJe')][not(./g-inner-card)]",
+          "is_parent": "True"
+        },
+        {
+          "field": "title",
+          "xPath": "//div[contains(@class,'title')]//a[@aria-label]/@aria-label",
+          "parent_field": "sponsored"
+  
+        },
+        {
+          "field": "price",
+          "xPath": "//div[contains(@class,'rwVHAc')]//div[contains(@class, 'T4OwTb')]/span[contains(@class, 'e10twf')]/text() | //div[contains(@class,'rwVHAc')]//div[contains(@class,'e10twf') and contains(@class,'T4OwTb')]/text() | //h4/parent::div/following-sibling::div[@class='pSNTSe'][not(*)]",
+          "parent_field": "sponsored"
+  
+        },
+        {
+          "field": "link",
+          "xPath": "//div[contains(@class,'title')]//a[@aria-label]/@href | //a[contains(@class,'pla-unit-link')]/@href",
+          "parent_field": "sponsored"
+        }
+      ]
+    }
+  ]

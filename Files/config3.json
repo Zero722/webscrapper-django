@@ -1,0 +1,21 @@
+[{
+    "name": "amazon",
+    "content": [   
+        {
+            "field": "related",
+            "xPath": "//div[contains(@data-cel-widget,'MAIN-TEXT_REFORMULATION')]//span/div/div/div/div",
+            "is_parent": "True"
+        }, 
+        {
+            "field": "title",
+            "xPath": "//span",
+            "parent_field": "related"
+        },
+        {
+            "field": "link",
+            "xPath": "//a/@href",
+            "parent_field": "related"
+
+        }
+    ]    
+}]

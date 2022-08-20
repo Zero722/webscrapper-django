@@ -1,0 +1,49 @@
+{% extends 'projects/header.html' %}
+{% block content %}
+    <h3>Scheme Name: {{ scheme_name }}</h3>
+    <a href="{% url 'edit_config' scheme_name %}"><button>Edit Scheme</button></a>
+    <br>
+    <br>
+    {% if has_data %}
+        <!-- <ul> -->
+        {% for parent, childs in contents %}
+            <table>
+                <tr>
+                    <td><b>Category: </b></td>
+                    <td>{{parent.field}}</td>
+                </tr>
+                <tr>
+                    <td><b>Product Box xPath:  </b></td>
+                    <td>{{parent.xpath}}</td>
+                </tr>
+
+            </table>
+            <br>
+            <br>
+
+
+            <table class="table table-hover">
+                <thead class="table-dark">
+                    <th>SN</th>
+                    <th>Field</th>
+                    <th>xPath</th>
+                </thead>
+                {% for child in childs %}
+                    {% comment %} {% if contents.parent_field == parent_content.field %} {% endcomment %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ child.field }}</td>
+                            <td>{{ child.xpath }}</td>
+                        </tr>
+                    {% comment %} {% endif %} {% endcomment %}
+                {% endfor %}
+            </table>
+            <br><br>
+
+        {% endfor %}
+        <!-- </ul> -->
+    {% else %}
+        <h4>No Scheme named "{{scheme_name}}" found</h4>
+    {% endif %}
+{% endblock content %}
+

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+
+
+{# Load the tag library #}
+{% load bootstrap5 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% load static %}
+
+<html lang="en">
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'projects/css/style.css' %}">
+    <title>Projects</title>
+</head>
+
+<body>
+    <br>
+    <div class="navbar">
+        <center>
+            <ul class="ul_hor">
+                <li><a href="{% url 'index' %}"> Home</a></li>
+                <li><a href="{% url 'upload' %}"> Upload</a></li>
+                <li><a href="{% url 'list_config' %}"> List Config</a></li>
+            </ul>
+        </center>
+    </div>
+    <hr>
+    <br>
+    <!-- Main -->
+    {% block content %}
+    {% endblock content %}
+    <!-- Main -->
+   
+
+    <script>
+        function toggle(){
+            if($("#json_div").css('display') == 'none'){
+                $("#url_div").css("display", "none");
+                $("#json_div").css("display", "block");
+                $("#toggle_btn").html("View CSV Upload");
+            }else{
+                $("#json_div").css("display", "none");
+                $("#url_div").css("display", "block");
+                $("#toggle_btn").html("View JSON Upload");
+            }
+        }
+        
+        console.log("apple")
+        function getCookie(user) {
+            var cookieArr = document.cookie.split(";");
+            for (var i = 0; i < cookieArr.length; i++) {
+                var cookiePair = cookieArr[i].split("=");
+                if (user == cookiePair[0].trim()) {
+                    return decodeURIComponent(cookiePair[1]);
+                }
+            }
+            return null;
+        }
+        
+        function checkCookie() {
+            $(".latest_download").hide();
+            var latest_url = getCookie("latest_url");
+            if (latest_url != null) {
+                $(".latest_download").show();
+                url_href = "{% get_media_prefix %}path_to_upload/" + latest_url + ".csv";
+                document.getElementById("latest_file").href = url_href;
+            }
+        }
+        //checkCookie();
+        
+        
+        $(".csv_upload").click(function (e) {
+            e.preventDefault();
+            $(".download_btn").hide();
+            $("#url_upload_msg").text("The csv file is being prepared. Please wait for a while ");
+            $("#download_latest").attr('disabled', true);
+            var data = new FormData();
+            data.append("file", $("input[id^='csvfile']")[0].files[0]);
+            data.append("csrfmiddlewaretoken", "{{ csrf_token }}");
+            data.append("scheme_name", $('#scheme_name option:selected').val());
+            console.log("sdfgsdg")
+        
+            $.ajax({
+        
+                url: "{% url 'uploadcsv' %}",
+                method: "POST",
+                data: data,
+                processData: false,
+                contentType: false,
+                mimeType: "multipart/form-data",
+                success: function (response) {
+                    console.log("Success")
+                    console.log(response);
+                    response = JSON.parse(response)
+                    $("#url_upload_msg").text(response.message);
+                    url_href = "{% get_media_prefix %}path_to_upload/" + getCookie("latest_url") + ".csv";
+                    
+                    if (response.message != 'Error: Invalid URL') {
+                        url_href = "{% get_media_prefix %}path_to_upload/" + response.urls + ".csv";
+                        document.getElementById("download_scraped_data").href = url_href;
+                        $(".download_btn").show();
+                    }
+                    document.getElementById("latest_file").href = url_href;
+                    
+                    if (getCookie("latest_url") != null) {
+                        $(".latest_download").show();
+                        $("#download_latest").attr('disabled', false);
+                    }
+        
+                },
+                error: function (error) {
+                    console.log(error);
+                    console.log("Error")
+                    $("#download_latest").attr('disabled', false);
+                    $("#url_upload_msg").text("Some error occured. Please try again");
+        
+                }
+            })
+        });
+        
+        
+        $(".both_upload").click(function (e) {
+            e.preventDefault();
+            $(".download_btn").hide();
+            $("#both_upload_msg").text("The files are being processed. Please wait for a while ");
+            $("#download_latest").attr('disabled', true);
+            var data = new FormData();
+            data.append("csv_file", $("input[id^='csvfile']")[0].files[0]);
+            data.append("json_file", $("input[id^='jsonfile']")[0].files[0]);
+        
+            data.append("csrfmiddlewaretoken", "{{ csrf_token }}");
+            console.log("hreth")
+        
+            $.ajax({
+        
+                url: "{% url 'upload_csv_json' %}",
+                method: "POST",
+                data: data,
+                processData: false,
+                contentType: false,
+                mimeType: "multipart/form-data",
+                success: function (response) {
+                    console.log("Success")
+                    console.log(response);
+                    response = JSON.parse(response)
+                    $("#both_upload_msg").text(response.message);
+                    url_href = "{% get_media_prefix %}path_to_upload/" + getCookie("latest_url") + ".csv";
+                    
+                    
+                    if (response.message != 'Error: Invalid URL') {
+                        url_href = "{% get_media_prefix %}path_to_upload/" + response.urls + ".csv";
+                        document.getElementById("download_scraped_data").href = url_href;
+                        $(".download_btn").show();
+                    }
+                    document.getElementById("latest_file").href = url_href;
+                    
+                    if (getCookie("latest_url") != null) {
+                        $("#download_latest").attr('disabled', false);
+                        $(".latest_download").show();
+                    }
+        
+        
+                },
+                error: function (error) {
+                    console.log(error);
+                    console.log("Error")
+                    $("#download_latest").attr('disabled', false);
+                    $("#both_upload_msg").text("Some error occured. Please try again");
+                }
+            })
+        });
+        
+        $(".json_upload").click(function (e) {
+            e.preventDefault();
+            $("#config_upload_msg").text("Uploading to database... ");
+            var data = new FormData();
+            data.append("file", $("input[id^='jsonfile']")[0].files[0]);
+            data.append("csrfmiddlewaretoken", "{{ csrf_token }}");
+
+            $.ajax({
+
+                url: "{% url 'uploadjson' %}",
+                method: "POST",
+                data: data,
+                processData: false,
+                contentType: false,
+                mimeType: "multipart/form-data",
+                success: function (response) {
+                    console.log("Success")
+                    response = JSON.parse(response)
+                    $("#config_upload_msg").text(response.message);
+
+
+                },
+                error: function (error) {
+                    console.log(error);
+                    console.log("Error")
+                    $("#config_upload_msg").text("Some error occured. Please try again");
+
+                }
+            })
+        });
+
+        $(".edit").on("submit", function (e) {
+            e.preventDefault();
+            db_id = $(this).attr('db_id')
+            console.log("slfdndskjfn")
+
+            $.ajax({
+
+                url: "{% url 'edit_scheme' %}",
+                method: "POST",
+                data: {
+                    db_id: db_id,
+                    xpath: $(`.xpath[db_id="${db_id}"]`).val(),
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                    dataType: "json",
+                },
+                success: function (response) {
+                    console.log("Success")
+                    console.log(response);
+                    $("#row-"+db_id).addClass("success")
+                    setTimeout(function() {
+                        $("#row-"+db_id).removeClass("success") 
+                        $("#row-"+db_id).addClass("done")
+                    }, 1000)
+                },
+                error: function (error) {
+                    console.log(error);
+                    console.log("Error")
+                    $("#row-"+db_id).addClass("error")
+                    setTimeout(function() {
+                        $("#row-"+db_id).removeClass("error") 
+                        $("#row-"+db_id).addClass("done")
+                    }, 1000)
+                }
+            })
+        });
+
+    </script>
+    {% block scripts %}
+    {% endblock %}
+</body>
+
+</html>

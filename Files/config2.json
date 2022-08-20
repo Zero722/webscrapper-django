@@ -1,0 +1,29 @@
+[
+  {
+    "name": "google",
+    "content": [
+      {
+        "field": "organic",
+        "xPath": "(//h3/parent::a/ancestor::div[@data-hveid and @data-ved and @class='g tF2Cxc'] | //h3//parent::a/ancestor::div[@data-hveid and @data-ved]/parent::div[contains(@class,'g')][not(./ancestor::ul)]/parent::div[not(@id) or @id='rso']/div[contains(@class,'g')][not(./ancestor::ul)][not(@data-md)][not(descendant::table)][not(./g-card)][not(parent::div[contains(@class,'V3FYCf')])] | //h3//parent::a/ancestor::div[@data-hveid and @data-ved]/ancestor::div[@class='g']/parent::div[@data-hveid]//div[@data-hveid and @data-ved][not(./ancestor::ul)][not(parent::div[contains(@class,'g ')])] | //h3/parent::a/parent::div[contains(@class,'kCrYT')]/parent::div | //a[contains(@href,'youtube')][./h3][not(ancestor::div[contains(@style,'display:none')])]/ancestor::div[not(@*)]/ancestor::div[contains(@class,'g')] | //h3/parent::a/ancestor::div[@data-hveid and @data-ved][contains(@class,'g Ww4FFb')])",
+        "is_parent": "True"
+      },
+      {
+        "field": "title",
+        "xPath": "//div/a/h3",
+        "parent_field": "organic"
+
+      },
+      {
+        "field": "link",
+        "xPath": "//a/@href",
+        "parent_field": "organic"
+
+      },
+      {
+        "field": "description",
+        "xPath": "//div[@class='VwiC3b yXK7lf MUxGbd yDYNvb lyLwlc lEBKkf']|//div[@class='VwiC3b yXK7lf MUxGbd yDYNvb lyLwlc']",
+        "parent_field": "organic"
+      }
+    ]
+  }
+]

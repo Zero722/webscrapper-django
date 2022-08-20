@@ -1,0 +1,74 @@
+body {
+  margin-left: 40px;
+  margin-right: 40px;
+}
+
+tr,
+td {
+  padding: 15px;
+  
+}
+
+.box {
+  padding: 15px;
+  border: 2px solid gray;
+}
+
+hr.dotted {
+  border-top: 2px dashed gray;
+}
+
+.download_btn {
+  display: none;
+}
+
+#json_div {
+  display: block;
+}
+
+#url_div {
+  display: none;
+}
+
+
+
+.ul_hor li {
+  display: inline;
+  padding-top: 40px;
+  padding-left: 40px;
+  padding-right: 40px;
+  font-size: 18px;
+}
+
+.navbar {
+  display: inline;
+}
+
+/* Custom table */
+.custom-table {
+  width: 100%;
+}
+.custom-table tr td:first-of-type {
+  width: 200px
+}
+.custom-table textarea {
+  width: 100%;
+    height: 100px;
+    max-width: 800px;
+}
+
+.success {
+  background-color: #0aff0a82;
+  transition: 250ms linear;
+}
+
+.error {
+  background-color: #ff6666;
+  transition: 250ms linear;
+}
+
+
+
+.done {
+  transition: 250ms linear;
+}
